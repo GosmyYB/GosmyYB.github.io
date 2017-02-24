@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OS X 下全局地科学上网 - Gosmy&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 curl google.com
+我们的解决方案是：利用 polipo 将 socks5 代理转为兼容性更好的 http 代理。
+改造之后，请求数据的发送路线为：应用 -&amp;gt; polipo 服务 -&amp;gt; ShadowSocks -&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS X 下全局地科学上网">
+<meta property="og:url" content="http://wyb0908.com/2017/02/24/set-shadowsocks-proxy-for-OS-X/index.html">
+<meta property="og:site_name" content="Gosmy's Blog">
+<meta property="og:description" content="ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 curl google.com
+我们的解决方案是：利用 polipo 将 socks5 代理转为兼容性更好的 http 代理。
+改造之后，请求数据的发送路线为：应用 -&amp;gt; polipo 服务 -&amp;gt; ShadowSocks -&amp;gt;">
+<meta property="og:updated_time" content="2017-02-24T04:51:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OS X 下全局地科学上网">
+<meta name="twitter:description" content="ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 curl google.com
+我们的解决方案是：利用 polipo 将 socks5 代理转为兼容性更好的 http 代理。
+改造之后，请求数据的发送路线为：应用 -&amp;gt; polipo 服务 -&amp;gt; ShadowSocks -&amp;gt;">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-91675270-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Gosmy</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://wyb0908.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-set-shadowsocks-proxy-for-OS-X" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OS X 下全局地科学上网
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/" class="article-date">
+  <time datetime="2017-02-24T03:02:43.000Z" itemprop="datePublished">2017-02-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Network/">Network</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 <code>curl google.com</code></p>
+<p>我们的解决方案是：利用 <a href="https://zh.wikipedia.org/zh-hans/Polipo" target="_blank" rel="external">polipo</a> 将 socks5 代理转为兼容性更好的 http 代理。</p>
+<p>改造之后，请求数据的发送路线为：应用 -&gt; polipo 服务 -&gt; ShadowSocks -&gt; 外面的世界</p>
+<a id="more"></a>
+<hr>
+<h3 id="安装-polipo"><a href="#安装-polipo" class="headerlink" title="安装 polipo"></a>安装 polipo</h3><p>利用 homebrew 的安装命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install polipo</div></pre></td></tr></table></figure></p>
+<h3 id="配置-polipo"><a href="#配置-polipo" class="headerlink" title="配置 polipo"></a>配置 polipo</h3><p>设置登录时启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -sfv /usr/<span class="built_in">local</span>/opt/polipo/*.plist ~/Library/LaunchAgents</div></pre></td></tr></table></figure></p>
+<p>修改配置文件<br> 将<code>/usr/local/opt/polipo/homebrew.mxcl.polipo.plist</code>编辑为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1080<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksProxyType=socks5<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Set `ulimit -n 65536`. The default macOS limit is 256, that's</span></div><div class="line">         not enough for Polipo (displays 'too many files open' errors).</div><div class="line">         It seems like you have no reason to lower this limit</div><div class="line">         (and unlikely will want to raise it). --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>65536<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>实际上，只在原文件中添加了：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1080<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>socksProxyType=socks5<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="启动-polipo-服务"><a href="#启动-polipo-服务" class="headerlink" title="启动 polipo 服务"></a>启动 polipo 服务</h3><p>在终端中执行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><ol>
+<li>将 ShadowSocks 打开</li>
+<li>开启 polipo 服务</li>
+<li>在终端中执行 <code>http_proxy=http://localhost:8123 curl ip.gs</code></li>
+</ol>
+<p>若返回非国内地址，则验证成功，如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">当前 IP：199.244.113.2 来自：美国加利福尼亚州洛杉矶 hugeserver.com</div></pre></td></tr></table></figure></p>
+<h3 id="设置别名"><a href="#设置别名" class="headerlink" title="设置别名"></a>设置别名</h3><p>在 <code>~/.zshrc</code> 文件中(请根据所用shell自行选择)，增加如下设置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">alias</span> useproxy=<span class="string">"export http_proxy=http://localhost:8123"</span></div></pre></td></tr></table></figure></p>
+<p>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.zshrc</div></pre></td></tr></table></figure></p>
+<p>以后想在终端科学上网，先执行命令<code>useproxy</code> 即可。</p>
+<hr>
+<h2 id="在IntelliJ-IDEA中使用"><a href="#在IntelliJ-IDEA中使用" class="headerlink" title="在IntelliJ IDEA中使用"></a>在IntelliJ IDEA中使用</h2><p>要想在IDEA中科学上网，至少有以下两种方式。</p>
+<ol>
+<li>在程序中写Proxy.</li>
+<li>在IDEA的配置中设置Proxy.</li>
+</ol>
+<p>经实践证明，<strong>只有方式1是可行的</strong>。而对于方式2，可能是我的设置姿势不对，试验了几种设置都没连通。</p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>下述代码，利用Proxy，将youtube首页内容输出到控制台中。注意，这里的 Proxy.Type 是 HTTP.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> String PROXY_ADDR = <span class="string">"127.0.0.1"</span>;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> PROXY_PORT = <span class="number">8123</span>;</div><div class="line"></div><div class="line">    String urlStr = <span class="string">"https://youtube.com"</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        URL url = <span class="keyword">new</span> URL(urlStr);</div><div class="line">        Proxy proxy = <span class="keyword">new</span> Proxy(Proxy.Type.HTTP, <span class="keyword">new</span> InetSocketAddress(PROXY_ADDR, PROXY_PORT));</div><div class="line">        URLConnection conn = url.openConnection(proxy);</div><div class="line">        conn.setConnectTimeout(<span class="number">3000</span>);</div><div class="line">        <span class="keyword">try</span> (Scanner scanner = <span class="keyword">new</span> Scanner(conn.getInputStream()))&#123;</div><div class="line">            <span class="keyword">while</span> (scanner.hasNextLine()) &#123;</div><div class="line">                System.out.println(scanner.nextLine());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">new</span> ProxyTest().init();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
+<li><a href="https://darknode.in/network/osx-nework-config/" target="_blank" rel="external">OS X 下的科学上网完整配置方案</a></li>
+<li><a href="http://droidyue.com/blog/2016/04/04/set-shadowsocks-proxy-for-terminal/" target="_blank" rel="external">为终端设置Shadowsocks代理</a></li>
+</ol>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>Contents</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-polipo"><span class="toc-number">1.</span> <span class="toc-text">安装 polipo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置-polipo"><span class="toc-number">2.</span> <span class="toc-text">配置 polipo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动-polipo-服务"><span class="toc-number">3.</span> <span class="toc-text">启动 polipo 服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证"><span class="toc-number">4.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置别名"><span class="toc-number">5.</span> <span class="toc-text">设置别名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在IntelliJ-IDEA中使用"><span class="toc-number"></span> <span class="toc-text">在IntelliJ IDEA中使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-number">1.</span> <span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number"></span> <span class="toc-text">参考文章</span></a>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proxy/">proxy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/08/singleton-pattern/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">单例模式的三种实现&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Gosmy&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

@@ -64,7 +64,7 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-设计模式-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-set-shadowsocks-proxy-for-OS-X" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -72,19 +72,76 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/设计模式-单例模式/">[设计模式] 单例模式</a>
+      <a class="article-title" href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/">OS X 下全局地科学上网</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2017/02/08/设计模式-单例模式/" class="article-date">
+      <a href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/" class="article-date">
+  <time datetime="2017-02-24T03:02:43.000Z" itemprop="datePublished">2017-02-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Network/">Network</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 <code>curl google.com</code></p>
+<p>我们的解决方案是：利用 <a href="https://zh.wikipedia.org/zh-hans/Polipo">polipo</a> 将 socks5 代理转为兼容性更好的 http 代理。</p>
+<p>改造之后，请求数据的发送路线为：应用 -&gt; polipo 服务 -&gt; ShadowSocks -&gt; 外面的世界</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proxy/">proxy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-singleton-pattern" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/08/singleton-pattern/">单例模式的三种实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/02/08/singleton-pattern/" class="article-date">
   <time datetime="2017-02-08T02:37:38.000Z" itemprop="datePublished">2017-02-08</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Design-Pattern/">设计模式</a>
+    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
   </div>
 
       
@@ -92,19 +149,14 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p>单例模式确保一个类只有一个实例，并提供一个全局访问点。</p>
-<p>单例模式有两种实现方法，一种叫饥汉(eagerly)，另一种叫懒汉(lazy).</p>
+<p>基本上单例模式有三种实现方法，分别叫饥汉(eagerly)，懒汉(lazy) 和 静态内部类。</p>
 <h2 id="饥汉实现"><a href="#饥汉实现" class="headerlink" title="饥汉实现"></a>饥汉实现</h2><p>饥汉的实现方法，顾名思义希望迫切地生成该单例对象。因此，我们会在JVM加载类的时候就生成对象。</p>
-<p>实现代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>饥汉的实现方法是最简单明了的。在工作中，我们将其作为默认的单例模式实现方法。但如果该对象的创建需要耗费过多的时间和空间，或者程序中可能不需要用到该对象，则我们应该考虑使用懒汉实现方法。</p>
-<h2 id="懒汉实现"><a href="#懒汉实现" class="headerlink" title="懒汉实现"></a>懒汉实现</h2><p>懒汉的实现方法是指等到这个对象真的需要被使用时才去生成该对象。这种实现方法需要注意多线程问题，因为可能出现多个线程判断对象为null，然后都试图创建对象。</p>
-<p>实现代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">				<span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">					instance = <span class="keyword">new</span> Singleton();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><code>volatile</code>关键字确保，当instance被改变时，多个线程可以正确地处理该变量。可以认为，多个线程被及时告知变量的变化。</p>
-<p>在同步代码块中再次检查了instance是否为null.  事实上，同步代码块的代码只会在该方法第一次被调用时才会彻底执行。</p>
-<h2 id="使用例子"><a href="#使用例子" class="headerlink" title="使用例子"></a>使用例子</h2><p>理论上，任何需要确保只有一个对象，或只需一个对象的类都可以使用该模式实现。比方说，线程池、缓存、对话框、处理偏好设置和注册表的对象，以及日志对象。</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
-<li>Head First design patterns. (O’Reilly, 2004).</li>
-</ol>
-
+<p>实现代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        
+          <p class="article-more-link">
+            <a href="/2017/02/08/singleton-pattern/#more">Read More</a>
+          </p>
+        
       
     </div>
     
