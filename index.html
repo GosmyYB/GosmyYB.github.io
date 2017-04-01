@@ -64,63 +64,6 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-set-shadowsocks-proxy-for-OS-X" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/">OS X 下全局地科学上网</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/" class="article-date">
-  <time datetime="2017-02-24T03:02:43.000Z" itemprop="datePublished">2017-02-24</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Network/">Network</a>
-  </div>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ShadowSocks 的使用的是 socks5 协议(区别于 http 和 https). 这导致一些浏览器以外的应用难以科学上网。比方说，在终端下无法 <code>curl google.com</code></p>
-<p>我们的解决方案是：利用 <a href="https://zh.wikipedia.org/zh-hans/Polipo">polipo</a> 将 socks5 代理转为兼容性更好的 http 代理。</p>
-<p>改造之后，请求数据的发送路线为：应用 -&gt; polipo 服务 -&gt; ShadowSocks -&gt; 外面的世界</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/02/24/set-shadowsocks-proxy-for-OS-X/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proxy/">proxy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-singleton-pattern" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
